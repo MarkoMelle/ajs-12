@@ -1,4 +1,6 @@
-export default class Gadgets {
+import Buyable from './Buyable'
+
+export default class Gadgets implements Buyable {
   constructor (
     readonly id: number,
     readonly name: string,

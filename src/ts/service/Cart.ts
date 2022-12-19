@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import Buyable from '../domain/Buyable'
 import Gadgets from '../domain/Gadgets'
 
 export default class Cart {
-  private readonly _items: Array<Buyable | Gadgets> = []
+   private readonly _items: Buyable[] = []
 
   // Task 2 statr
 
@@ -25,11 +26,10 @@ export default class Cart {
 
   // Task 3 start
 
-  add (item: Buyable | Gadgets): void {
-    if ((this._items.find(i => i.id === item.id) !== undefined) && item instanceof Gadgets) {
-      const search = this._items.find(i => i.id === item.id)
-      /* eslint-disable-next-line  @typescript-eslint/no-non-null-assertion */
-      const id: number = this._items.indexOf(search!)
+  add (item: Buyable): void {
+    const search = this._items.find(i => i.id === item.id)
+    if (item instanceof Gadgets && search != null) {
+      const id: number = this._items.indexOf(search)
       this._items[id].price += item.price
       this._items[id].amount += 1
     } else {
@@ -37,12 +37,10 @@ export default class Cart {
     }
   }
 
-  remove (item: Gadgets): void {
-    /* eslint-disable-next-line  @typescript-eslint/no-non-null-assertion */
-    if ((this._items.find(i => i.id === item.id) !== undefined) && this._items.find(i => i.id === item.id)!.amount > 1) {
-      const search = this._items.find(i => i.id === item.id)
-      /* eslint-disable-next-line  @typescript-eslint/no-non-null-assertion */
-      const id: number = this._items.indexOf(search!)
+  remove (item: Buyable): void {
+    const search = this._items.find(i => i.id === item.id)
+    if (search != null && search.amount > 1) {
+      const id: number = this._items.indexOf(search)
       this._items[id].price = this._items[id].price - item.price
       this._items[id].amount -= 1
     }
